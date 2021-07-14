@@ -3,7 +3,9 @@
 name: react to dispatch event
 
 # Controls when the workflow will run
-on: repository_dispatch
+on: 
+  repository_dispatch:
+    types: [custom_event_type]
   # Triggers the workflow on push or pull request events but only for the main branch
   #push: 
     #branches: [ main ]
