@@ -22,4 +22,9 @@ jobs:
           token: ${{secrets.PAT_TOKEN}}
           commit-message: "chore: auto pr"
           title: "Auto PR Test"
+      
+      - uses: peter-evans/enable-pull-request-automerge@v1
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          pull-request-number: 1
         
