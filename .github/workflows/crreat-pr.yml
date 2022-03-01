@@ -20,6 +20,13 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{secrets.PAT_TOKEN}}
-          commit-message: "chore: auto pr"
-          title: "Auto PR Test"
+          commit-message: 'chore(samples): update samples'
+          branch: 'update-samples-generated'
+          delete-branch: true
+          title: 'Generated: update samples from okta-react'
+          body: |
+            `
+            Auto Generated Pull Request
+            This PR pulls latest samples from https://github.com/okta/okta-react/tree/master/samples
+            `
         
