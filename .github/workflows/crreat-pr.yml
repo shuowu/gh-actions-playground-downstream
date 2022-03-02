@@ -33,7 +33,7 @@ jobs:
         with: 
           github-token: ${{secrets.PAT_TOKEN}}
           script: |
-            octokit.rest.repos.merge({
+            github.rest.repos.merge({
               owner: 'shuowu',
               repo: 'gh-actions-playground-downstream',
               base: 'main',
