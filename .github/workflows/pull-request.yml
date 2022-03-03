@@ -16,4 +16,3 @@ jobs:
         github-token: ${{secrets.PAT_TOKEN}}
         script: |
          console.log('context', context);
-         console.log('event', event);
