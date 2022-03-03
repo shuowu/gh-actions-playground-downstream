@@ -44,10 +44,12 @@ jobs:
           let fs = require('fs');
           let info = fs.readFileSync('./context');
           const contextObject = JSON.parse(info);
-          github.rest.pulls.merge({
+          console.log(contextObject);
+          github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            pull_number: 2
+            base: 'main',
+            head: context.payload.pull_request.head.label
           });
           
           
