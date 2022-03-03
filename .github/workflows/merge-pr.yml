@@ -45,12 +45,12 @@ jobs:
           const contextStr = fs.readFileSync('./context');
           const contextObject = JSON.parse(contextStr);
           const prContext = await github.request(contextObject.payload.pull_request.url);
-          console.log(contextObject.payload.pull_request.url, prContext);
+          console.log(contextObject.payload.pull_request.url, prContext, prContext.data.head.label);
           github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: 'main',
-            head: prContext.head.label
+            head: prContext.data.head.label
           });
           
           
