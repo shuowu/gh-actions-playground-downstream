@@ -25,5 +25,6 @@ jobs:
       with: 
         # github-token: ${{secrets.PAT_TOKEN}}
         script: |
-          console.log('labels', context.pull_request.labels);
-          console.log('author_association', context.review.author_association);
+          console.log(context, context.pull_request, context.review);
+          # console.log('labels', context.pull_request.labels);
+          # console.log('author_association', context.review.author_association);
