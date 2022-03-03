@@ -9,7 +9,6 @@ on:
 
 jobs:
   approved:
-    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
     - name: check context
@@ -18,6 +17,7 @@ jobs:
         github-token: ${{secrets.PAT_TOKEN}}
         script: |
          console.log('context', context);
+         console.log('event', context.event);
          console.log('owner', JSON.stringify(context.repository.owner));
   # merge:
   #   runs-on: ubuntu-latest
