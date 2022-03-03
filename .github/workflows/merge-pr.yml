@@ -45,7 +45,7 @@ jobs:
           const contextStr = fs.readFileSync('./context');
           const contextObject = JSON.parse(contextStr);
           const prContext = await github.request(contextObject.payload.pull_request.url);
-          console.log(contextObject);
+          console.log(contextObject.payload.pull_request.url, prContext);
           github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
