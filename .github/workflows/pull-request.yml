@@ -6,18 +6,9 @@ on:
 
 
 jobs:
-  # labeled:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: check context
-  #     uses: actions/github-script@v6
-  #     with: 
-  #       github-token: ${{secrets.PAT_TOKEN}}
-  #       script: |
-  #         console.log('labels', context.pull_request.labels);
-  #         console.log('author_association', context.review.author_association);
-  approved:
+  merge:
     runs-on: ubuntu-latest
+    
     steps:
     - name: check context
       uses: actions/github-script@v6
