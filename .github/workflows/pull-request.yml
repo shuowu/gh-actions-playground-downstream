@@ -10,11 +10,12 @@ on:
 jobs:
   approved:
     runs-on: ubuntu-latest
+    
     steps:
     - name: check context
       uses: actions/github-script@v6
       with: 
-        github-token: ${{secrets.PAT_TOKEN}}
+        # github-token: ${{secrets.PAT_TOKEN}}
         script: |
          console.log('context', context);
          console.log('event', context.event);
