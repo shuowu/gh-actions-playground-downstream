@@ -1,10 +1,8 @@
 name: Merge pull request
 
 on:
-  pull_request_target:
-    types: [labeled]
-  # pull_request_review:
-  #   types: [submitted]
+  pull_request_review:
+    types: [submitted]
 
 
 jobs:
@@ -18,7 +16,7 @@ jobs:
   #       script: |
   #         console.log('labels', context.pull_request.labels);
   #         console.log('author_association', context.review.author_association);
-  labeled:
+  approved:
     runs-on: ubuntu-latest
     steps:
     - name: check context
