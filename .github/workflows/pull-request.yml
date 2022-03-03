@@ -3,24 +3,12 @@ name: Merge pull request
 on:
   pull_request_target:
     types: [labeled]
-  pull_request_review:
-    types: [submitted]
+  # pull_request_review:
+  #   types: [submitted]
 
 
 jobs:
-  approved:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: check context
-      uses: actions/github-script@v6
-      with: 
-        # github-token: ${{secrets.PAT_TOKEN}}
-        script: |
-          console.log('context', context);
-          console.log('event', context.event);
-          console.log('owner', JSON.stringify(context.repository.owner));
-  # merge:
+  # labeled:
   #   runs-on: ubuntu-latest
   #   steps:
   #   - name: check context
@@ -28,4 +16,15 @@ jobs:
   #     with: 
   #       github-token: ${{secrets.PAT_TOKEN}}
   #       script: |
-  #        console.log('context', context);
+  #         console.log('labels', context.pull_request.labels);
+  #         console.log('author_association', context.review.author_association);
+  labeled:
+    runs-on: ubuntu-latest
+    steps:
+    - name: check context
+      uses: actions/github-script@v6
+      with: 
+        github-token: ${{secrets.PAT_TOKEN}}
+        script: |
+          console.log('labels', context.pull_request.labels);
+          console.log('author_association', context.review.author_association);
