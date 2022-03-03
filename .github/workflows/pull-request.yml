@@ -1,19 +1,31 @@
 name: Merge pull request
 
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request_target:
+    types: [labeled]
+  # pull_request_review:
+  #   types: [submitted]
 
 
 jobs:
-  merge:
+  # labeled:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: check context
+  #     uses: actions/github-script@v6
+  #     with: 
+  #       github-token: ${{secrets.PAT_TOKEN}}
+  #       script: |
+  #         console.log('labels', context.pull_request.labels);
+  #         console.log('author_association', context.review.author_association);
+  approved:
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
-    
     steps:
     - name: check context
       uses: actions/github-script@v6
       with: 
-        github-token: ${{secrets.PAT_TOKEN}}
+        # github-token: ${{secrets.PAT_TOKEN}}
         script: |
           console.log('labels', context.pull_request.labels);
           console.log('author_association', context.review.author_association);
