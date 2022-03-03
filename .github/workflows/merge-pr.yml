@@ -44,10 +44,9 @@ jobs:
           let fs = require('fs');
           let info = fs.readFileSync('./context');
           console.log(info);
-          try {
-            const contextObject = JSON.parse(info);
-            console.log(contextObject);
-          } catch {
-            console.log('failed to parse context');
-          }
+          const contextObject = JSON.parse(info);
+          const head = contextObject.payload.pull_request.head;
+          console.log(head);
+          
+          
             
