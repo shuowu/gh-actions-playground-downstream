@@ -23,6 +23,9 @@ jobs:
     - name: check context
       uses: actions/github-script@v6
       with: 
+        github-token: ${{secrets.PAT_TOKEN}}
         script: |
-          console.log('labels', context.payload.pull_request.labels);
-          console.log('author_association', context.payload.review.author_association);
+          const hasDocLabel = context.payload.pull_request.labels.some(label => label.name === 'documentation');
+          const doesApprovalCount = ['OWNER', 'CONTRIBUTOR'].includes(context.payload.review.author_association);
+          console.log(hasDocLabel, doesApprovalCount);
+          console.log(context.payload.pull_request);
