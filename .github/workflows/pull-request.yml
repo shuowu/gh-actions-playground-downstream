@@ -23,8 +23,6 @@ jobs:
     - name: check context
       uses: actions/github-script@v6
       with: 
-        # github-token: ${{secrets.PAT_TOKEN}}
         script: |
           console.log(context, context.pull_request, context.review);
-          # console.log('labels', context.pull_request.labels);
-          # console.log('author_association', context.review.author_association);
+        
