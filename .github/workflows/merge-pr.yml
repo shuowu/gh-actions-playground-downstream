@@ -1,0 +1,17 @@
+name: merge approved pr
+
+on:
+  workflow_run:
+    workflows: [PR Approval Dispatcher]
+    types: [completed]
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check context
+      uses: actions/github-script@v6
+      with: 
+        github-token: ${{secrets.PAT_TOKEN}}
+        script: |
+          console.log(context);

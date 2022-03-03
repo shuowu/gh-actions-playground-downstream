@@ -1,29 +1,17 @@
-name: Merge pull request
+name: PR Approval Dispatcher
 
 on:
   pull_request_review:
     types: [submitted]
 
-
 jobs:
-  # labeled:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: check context
-  #     uses: actions/github-script@v6
-  #     with: 
-  #       github-token: ${{secrets.PAT_TOKEN}}
-  #       script: |
-  #         console.log('labels', context.pull_request.labels);
-  #         console.log('author_association', context.review.author_association);
-  approved:
+  transfer:
     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
-    - name: check context
+    - name: Save Context
       uses: actions/github-script@v6
       with: 
-        github-token: ${{secrets.PAT_TOKEN}}
         script: |
           const hasDocLabel = context.payload.pull_request.labels.some(label => label.name === 'documentation');
           const doesApprovalCount = ['OWNER', 'CONTRIBUTOR'].includes(context.payload.review.author_association);
