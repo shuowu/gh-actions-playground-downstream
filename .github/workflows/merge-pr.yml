@@ -19,9 +19,11 @@ jobs:
               repo: context.repo.repo,
               run_id: context.payload.workflow_run.id,
           });
+          console.log('all', allArtifacts);
           let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
             return artifact.name == "context"
           })[0];
+          console.log('matchArtifact', matchArtifact);
           let download = await github.rest.actions.downloadArtifact({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -29,10 +31,10 @@ jobs:
               archive_format: 'zip',
           });
           let fs = require('fs');
-          fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/pr_number.zip`, Buffer.from(download.data));
+          fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/context.zip`, Buffer.from(download.data));
 
     - name: Unzip artifact
-      run: unzip pr_number.zip
+      run: unzip context.zip
 
     - name: Check file
       uses: actions/github-script@v6
