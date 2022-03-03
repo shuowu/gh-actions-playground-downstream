@@ -1,0 +1,19 @@
+name: Merge pull request
+
+on:
+  pull_request_target:
+    types: [labeled]
+
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: check context
+      uses: actions/github-script@v6
+      with: 
+        github-token: ${{secrets.PAT_TOKEN}}
+        script: |
+         console.log('context', context);
+         console.log('event', event);
