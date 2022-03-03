@@ -41,15 +41,16 @@ jobs:
       with:
         github-token: ${{ secrets.PAT_TOKEN }}
         script: |
-          let fs = require('fs');
-          let info = fs.readFileSync('./context');
-          const contextObject = JSON.parse(info);
+          const fs = require('fs');
+          const contextStr = fs.readFileSync('./context');
+          const contextObject = JSON.parse(contextStr);
+          const prContext = await github.request(contextObject.payload.pull_request.url);
           console.log(contextObject);
           github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: 'main',
-            head: context.payload.pull_request.head.label
+            head: prContext.head.label
           });
           
           
