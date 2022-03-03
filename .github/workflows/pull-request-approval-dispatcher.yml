@@ -14,7 +14,7 @@ jobs:
       with: 
         script: |
           const fs = require('fs');
-          fs.mkdir('./pr');
+          fs.mkdirSync('./pr');
           fs.writeFileSync('./pr/context', JSON.stringify(context));
     - uses: actions/upload-artifact@v2
         with:
