@@ -61,8 +61,8 @@ jobs:
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.PAT_TOKEN }}
-        env: 
-          HEAD: '${{env.head}}'
+        # env: 
+        #   HEAD: '${{env.head}}'
         script: |
           const { HEAD } = process.env;
           console.log('+++', HEAD);
