@@ -55,8 +55,14 @@ jobs:
     - name: Copy
       run: |
         git fetch -fu origin refs/pull/${{steps.set-pr-number.outputs.result}}/head:copy-pr-${{ steps.set-pr-number.outputs.result }}
-        git checkout copy-pr-${{ steps.set-pr-number.outputs.result }}
-        git log
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.PAT_TOKEN }}
+        branch: copy-pr-${{ steps.set-pr-number.outputs.result }}
+
+    - run: git checkout copy-pr-${{ steps.set-pr-number.outputs.result }}
 
     - name: Push changes
       uses: ad-m/github-push-action@master
