@@ -50,11 +50,25 @@ jobs:
           const prNumber = (await github.request(contextObject.payload.pull_request.url)).data.number;
           const head = `copy-pr-${prNumber}`;
           await exec.exec(`git fetch -fu origin refs/pull/${prNumber}/head:${head}`);
-          await exec.exec(`git push origin ${head}`);
+          await exec.exec(`export HEAD=${head}`);
+    
+    - name: Push to remote
+      uses: actions/checkout@v3
+      run: git push origin $HEAD
+    
+    - name: Merge
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.PAT_TOKEN }}
+        env:
+          HEAD: $HEAD
+        script: |
+          const { HEAD } = process.env;
+          console.log('+++', HEAD);
           github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: 'main',
-            head
+            head: HEAD
           });
             
