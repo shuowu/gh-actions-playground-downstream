@@ -49,13 +49,10 @@ jobs:
           const prNumber = prContext.data.number;
           console.log(contextObject, prContext);
           const head = `copy-pr-${prNumber}`;
-          await exec.exec(`git fetch -fu origin refs/pull/${prNumber}/head:${head}`);
-          // set global env for rest steps
-          process.env.HEAD = head;
-    
-    - uses: actions/checkout@v3
-    
+          await exec.exec(`echo "head=${head}" >> $GITHUB_ENV`)
+
     - run: |
+      git fetch -fu origin refs/pull/8/head:copy-pr-8
       git branch
       git push origin copy-pr-8
     
@@ -63,6 +60,8 @@ jobs:
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.PAT_TOKEN }}
+        env: 
+          HEAD: '${{env.head}}'
         script: |
           const { HEAD } = process.env;
           console.log('+++', HEAD);
