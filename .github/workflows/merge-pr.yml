@@ -50,7 +50,8 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: 'main',
-            head: prContext.data.head.label
+            // head: prContext.data.head.label
+            head: '58c8a2fcd97eb31934f6ba5249d73fb884ac7c50'
           });
           
           
