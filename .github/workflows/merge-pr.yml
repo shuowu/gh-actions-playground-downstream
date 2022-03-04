@@ -53,11 +53,10 @@ jobs:
             // head: prContext.data.head.label
           //  head: '58c8a2fcd97eb31934f6ba5249d73fb884ac7c50'
           // });
-          github.rest.pulls.create({
+          github.rest.pulls.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            head: 'main',
-            base: '58c8a2fcd97eb31934f6ba5249d73fb884ac7c50',
+            pull_number: 6
           });
           
           
