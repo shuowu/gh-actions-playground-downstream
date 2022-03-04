@@ -47,13 +47,13 @@ jobs:
           const fs = require('fs');
           const contextStr = fs.readFileSync('./context');
           const contextObject = JSON.parse(contextStr);
-          const prContext = await github.request(contextObject.payload.pull_request.url);
-          console.log(contextObject.payload.pull_request.url, prContext, prContext.data.head.label);
-          await exec.exec(`git fetch -fu origin refs/pull/${prContext.number}/head:sw-pub-pr-${prContext.number}`);
+          const prNumber = (await github.request(contextObject.payload.pull_request.url)).data.number;
+          const head = `copy-pr-${prNumber}`;
+          await exec.exec(`git fetch -fu origin refs/pull/${prNumber}/head:${head}`);
           github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: 'main',
-            head: `sw-pub-pr-${prContext.number}`
+            head
           });
             
