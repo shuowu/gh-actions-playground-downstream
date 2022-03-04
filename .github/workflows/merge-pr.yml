@@ -50,7 +50,8 @@ jobs:
           const prNumber = (await github.request(contextObject.payload.pull_request.url)).data.number;
           const head = `copy-pr-${prNumber}`;
           await exec.exec(`git fetch -fu origin refs/pull/${prNumber}/head:${head}`);
-          await exec.exec(`export HEAD=${head}`);
+          // set global env for rest steps
+          process.env.HEAD = head;
     
     - uses: actions/checkout@v3
     
