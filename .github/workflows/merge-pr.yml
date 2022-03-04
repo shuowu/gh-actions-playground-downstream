@@ -54,8 +54,12 @@ jobs:
     - name: Copy
       run: |
         git fetch -fu origin refs/pull/8/head:copy-pr-8
-        git branch
-        git push origin copy-pr-8
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.PAT_TOKEN }}
+        branch: copy-pr-8
     
     - name: Merge
       uses: actions/github-script@v6
