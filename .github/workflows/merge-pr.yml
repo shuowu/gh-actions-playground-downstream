@@ -53,8 +53,8 @@ jobs:
           await exec.exec(`export HEAD=${head}`);
     
     - name: Push to remote
-      uses: actions/checkout@v3
-      run: git push origin $HEAD
+      - uses: actions/checkout@v3
+      - run: git push origin $HEAD
     
     - name: Merge
       uses: actions/github-script@v6
