@@ -36,6 +36,9 @@ jobs:
     - name: Unzip artifact
       run: unzip context.zip
 
+    - name: Checkout
+      uses: actions/checkout@v3
+
     - name: Check file
       uses: actions/github-script@v6
       with:
@@ -46,18 +49,11 @@ jobs:
           const contextObject = JSON.parse(contextStr);
           const prContext = await github.request(contextObject.payload.pull_request.url);
           console.log(contextObject.payload.pull_request.url, prContext, prContext.data.head.label);
-          // github.rest.repos.merge({
-          //  owner: context.repo.owner,
-          //  repo: context.repo.repo,
-          //  base: 'main',
-            // head: prContext.data.head.label
-          //  head: '58c8a2fcd97eb31934f6ba5249d73fb884ac7c50'
-          // });
-          github.rest.pulls.merge({
+          await exec.exec(`git fetch -fu origin refs/pull/${prContext.number}/head:sw-pub-pr-${prContext.number}`);
+          github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            pull_number: 7
+            base: 'main',
+            head: `sw-pub-pr-${prContext.number}`
           });
-          
-          
             
