@@ -54,6 +54,8 @@ jobs:
     - name: Copy
       run: |
         git fetch -fu origin refs/pull/8/head:copy-pr-8
+        git checkout copy-pr-8
+        git log
 
     - name: Push changes
       uses: ad-m/github-push-action@master
