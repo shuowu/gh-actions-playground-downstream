@@ -22,11 +22,9 @@ jobs:
               repo: context.repo.repo,
               run_id: context.payload.workflow_run.id,
           });
-          console.log('all', allArtifacts);
           let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
             return artifact.name == "context"
           })[0];
-          console.log('matchArtifact', matchArtifact);
           let download = await github.rest.actions.downloadArtifact({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -47,7 +45,9 @@ jobs:
           const fs = require('fs');
           const contextStr = fs.readFileSync('./context');
           const contextObject = JSON.parse(contextStr);
-          const prNumber = (await github.request(contextObject.payload.pull_request.url)).data.number;
+          const prContext = await github.request(contextObject.payload.pull_request.url);
+          const prNumber = prContext.data.number;
+          console.log(contextObject, prContext);
           const head = `copy-pr-${prNumber}`;
           await exec.exec(`git fetch -fu origin refs/pull/${prNumber}/head:${head}`);
           // set global env for rest steps
@@ -55,7 +55,7 @@ jobs:
     
     - uses: actions/checkout@v3
     
-    - run: git push origin $HEAD
+    - run: git push origin copy-pr-8
     
     - name: Merge
       uses: actions/github-script@v6
@@ -68,6 +68,6 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: 'main',
-            head: HEAD
+            head: 'copy-pr-8'
           });
             
