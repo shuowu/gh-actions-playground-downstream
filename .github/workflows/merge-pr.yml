@@ -48,7 +48,7 @@ jobs:
           const prContext = await github.request(contextObject.payload.pull_request.url);
           const prNumber = prContext.data.number;
           console.log(contextObject, prContext);
-          console.log(JSON.stringify(${{steps}}));
+          console.log(JSON.stringify(${{jobs}}));
           console.log("${{env.number}}");
           context.prNumber = prNumber;
 
