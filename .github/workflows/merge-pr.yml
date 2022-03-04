@@ -65,7 +65,7 @@ jobs:
     - name: LLL 
       run: |
         git checkout copy-pr-${{ steps.set-pr-number.outputs.result }}
-        git pull
+        git pull --rebase origin copy-pr-${{ steps.set-pr-number.outputs.result }}
 
     - name: Push changes
       uses: ad-m/github-push-action@master
