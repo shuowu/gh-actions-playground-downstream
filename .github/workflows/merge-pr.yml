@@ -48,34 +48,33 @@ jobs:
           const prContext = await github.request(contextObject.payload.pull_request.url);
           const prNumber = prContext.data.number;
           console.log(contextObject, prContext);
-          const head = `copy-pr-${prNumber}`;
-          await exec.exec(`echo "head=${head}" >> $GITHUB_ENV`)
+          await exec.exec(`echo "number=${prNumber}" >> $GITHUB_ENV`)
 
     - name: Copy
       run: |
-        git fetch -fu origin refs/pull/8/head:copy-pr-8
-        git checkout copy-pr-8
+        git fetch -fu origin refs/pull/${{ env.number }}/head:copy-pr-${{ env.number }}
+        git checkout copy-pr-${{ env.number }}
         git log
 
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.PAT_TOKEN }}
-        branch: copy-pr-8
+        branch: copy-pr-${{ env.number }}
     
     - name: Merge
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.PAT_TOKEN }}
         # env: 
-        #   HEAD: '${{env.head}}'
+        #   NUMBER: ${{ env.number }}
         script: |
-          const { HEAD } = process.env;
-          console.log('+++', HEAD);
+          const number = ${{ env.number }};
+          console.log('+++', number);
           github.rest.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: 'main',
-            head: 'copy-pr-8'
+            head: `copy-pr-${number}`
           });
             
