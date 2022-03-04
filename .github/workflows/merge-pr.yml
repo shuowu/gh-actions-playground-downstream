@@ -38,9 +38,11 @@ jobs:
       run: unzip context.zip
 
     - name: Check file
+      id: set-pr-number
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.PAT_TOKEN }}
+        result-encoding: string
         script: |
           const fs = require('fs');
           const contextStr = fs.readFileSync('./context');
@@ -48,30 +50,26 @@ jobs:
           const prContext = await github.request(contextObject.payload.pull_request.url);
           const prNumber = prContext.data.number;
           console.log(contextObject, prContext);
-          console.log(JSON.stringify(${{jobs}}));
-          console.log("${{env.number}}");
-          context.prNumber = prNumber;
+          return prNumber;
 
     - name: Copy
       run: |
-        git fetch -fu origin refs/pull/${{ github.prNumber }}/head:copy-pr-${{ github.prNumber }}
-        git checkout copy-pr-${{ github.prNumber }}
+        git fetch -fu origin refs/pull/${{steps.set-pr-number.outputs.result}}/head:copy-pr-${{ steps.set-pr-number.outputs.result }}
+        git checkout copy-pr-${{ steps.set-pr-number.outputs.result }}
         git log
 
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.PAT_TOKEN }}
-        branch: copy-pr-${{ github.prNumber }}
+        branch: copy-pr-${{ steps.set-pr-number.outputs.result }}
     
     - name: Merge
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.PAT_TOKEN }}
-        # env: 
-        #   NUMBER: ${{ env.number }}
         script: |
-          const number = ${{ github.prNumber }};
+          const number = ${{ steps.set-pr-number.outputs.result }};
           console.log('+++', number);
           github.rest.repos.merge({
             owner: context.repo.owner,
