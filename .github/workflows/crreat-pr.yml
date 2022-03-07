@@ -17,6 +17,7 @@ jobs:
         run: date +%s > report.txt
 
       - name: Create Pull Request
+        id: create-pr
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{secrets.PAT_TOKEN}}
@@ -34,10 +35,9 @@ jobs:
         with: 
           github-token: ${{secrets.PAT_TOKEN}}
           script: |
-            github.rest.repos.merge({
+            github.rest.pulls.merge({
               owner: 'shuowu',
               repo: 'gh-actions-playground-downstream',
-              base: 'main',
-              head: 'update-samples-generated'
+              pull_number: ${{ steps.create-pr.outputs.pull-request-number }}
             });
         
