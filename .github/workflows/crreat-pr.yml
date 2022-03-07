@@ -29,6 +29,7 @@ jobs:
             This PR pulls latest samples from https://github.com/okta/okta-react/tree/master/samples
 
       - name: Merge PR
+        if: github.event.client_payload.merge == true
         uses: actions/github-script@v6
         with: 
           github-token: ${{secrets.PAT_TOKEN}}
